@@ -10,21 +10,22 @@ class Particle {
   PImage img;
   
   Particle(PVector p) {
-    vel = new PVector(0,0);
-    forces = new PVector(0,0);
+    vel = new PVector(0,0,0);
+    forces = new PVector(0,0,0);
     pos = p.copy();
+    cons_pos = p.copy();
     fixed = false;
   }
   
   Particle(PVector p, boolean fix) {
-    vel = new PVector(0,0);
-    forces = new PVector(0,0);
+    vel = new PVector(0,0,0);
+    forces = new PVector(0,0,0);
     pos = p.copy();
+    cons_pos = p.copy();
     fixed = fix;
   }
 
   void run() {
-    update();
     render();
   }
 
@@ -34,26 +35,25 @@ class Particle {
     forces.add(f);
   }
 
-  // Method to update position
-  void update() {
-    //vel.add(acc);
-    //pos.add(vel);
-    //acc.mult(0); // clear Acceleration
-  }
-
   // Method to display
   void render() {
-    //imageMode(CENTER);
-    //tint(255, lifespan);
-    //image(img, loc.x, loc.y);
-    
-    // Drawing a circle instead
+     int color_value;
      if (fixed) {
-       fill(80);
+       color_value = 100;
      } else {
-       fill(255);
+       color_value = 255;
      }
+     
+     pushMatrix();
+     translate(pos.x, pos.y, pos.z);
+     lights();
+          
      noStroke();
-     ellipse(pos.x,pos.y,5,5);
+     fill(color_value);
+     
+     sphere(4);
+     popMatrix();
+     
+     
   }
 }

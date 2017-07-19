@@ -24,7 +24,6 @@ class Constraint {
   }
 }
 
-
 class DistanceConstraint extends Constraint {
   float rest_distance;
   
@@ -34,13 +33,19 @@ class DistanceConstraint extends Constraint {
   }
   
   void update() {
-    PVector n = p1.cons_pos.sub(p2.cons_pos);
+    PVector n = p1.cons_pos.copy().sub(p2.cons_pos);
     float dist = n.mag();
     n.normalize();
     float invmass_sum = p1.invmass + p2.invmass;
-    PVector corr = n.mult(stiffness * (dist - rest_distance) / invmass_sum);
-    p1.cons_pos = corr.copy().mult(p1.invmass);
-    p2.cons_pos = corr.copy().mult(-p2.invmass);
+    
+    PVector diff = n.mult(stiffness * (dist - rest_distance) / invmass_sum);
+    //PVector diff = n.mult((dist - rest_distance) / invmass_sum);
+    if (!p1.fixed) {
+      p1.cons_pos.sub(diff.copy().mult(p1.invmass));
+    }
+    if (!p2.fixed) {
+      p2.cons_pos.add(diff.copy().mult(p2.invmass));
+    }
   }
   
   void run() {
@@ -49,6 +54,7 @@ class DistanceConstraint extends Constraint {
   
   void render() {
     line(p1.pos.x, p1.pos.y, p2.pos.x, p2.pos.y);
+    //line(p1.cons_pos.x, p1.cons_pos.y, p2.cons_pos.x, p2.cons_pos.y);
     stroke(50);
   }
 }
