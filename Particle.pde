@@ -1,4 +1,6 @@
 class Particle {
+  float id;
+  
   PVector pos;
   PVector cons_pos;
   PVector vel;
@@ -17,12 +19,13 @@ class Particle {
     fixed = false;
   }
   
-  Particle(PVector p, boolean fix) {
+  Particle(PVector p, boolean fix, float pid) {
     vel = new PVector(0,0,0);
     forces = new PVector(0,0,0);
     pos = p.copy();
     cons_pos = p.copy();
     fixed = fix;
+    id = pid;
   }
 
   void run() {
@@ -51,9 +54,7 @@ class Particle {
      noStroke();
      fill(color_value);
      
-     sphere(4);
+     sphere(2);
      popMatrix();
-     
-     
   }
 }
