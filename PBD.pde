@@ -81,12 +81,13 @@ class PBD {
         float y = dy*j + (width/2) - (cloth_width/2)*1.3;
         
         boolean fix = false;
-        if ((j==0 && i==0) || (j==0 && i==rows-1) || (j==cols-1 && i==0) || (j==cols-1 && i==rows-1)) {
+        //if ((j==0 && i==0) || (j==0 && i==rows-1) || (j==cols-1 && i==0) || (j==cols-1 && i==rows-1)) {
+        if (j==0 || i==0) {
           fix = true;
         }
         
-        //Particle p = new Particle(new PVector(y,x,0), fix, particle_id++);
-        Particle p = new Particle(new PVector(y,x,0), (j == 0), particle_id++);
+        Particle p = new Particle(new PVector(y,x,0), fix, particle_id++);
+        //Particle p = new Particle(new PVector(y,x,0), (j == 0), particle_id++);
         
         if (i > 0) {
           // index of upper particle
